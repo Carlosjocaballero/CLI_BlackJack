@@ -1,0 +1,1 @@
+// Create a struct for controls. Use this to keep track of current state, screen type (menu, game, credits, etc)
