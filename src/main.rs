@@ -3,10 +3,12 @@ use crate::game::Game;
 mod game;
 pub mod user;
 pub mod house;
+pub mod control;
 
 fn main() {
     let mut game : Game = Game::new();
-    // println!("{}", game.curr_score);
-    // game.curr_score = 5;
-    // println!("{}", game.curr_score);
+    println!("Start the game!");
+    game.init();
+    println!("Goodbye!");
+    
 }
