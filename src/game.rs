@@ -30,11 +30,17 @@ impl Game{
 
     pub fn init(&mut self){
         while self.control.game_state != GameState::End{
-            println!("The house draws");
-            
-            let mut random_card = self.draw_card();
-            random_card.print_card();
-            
+            println!("The house draws ");
+            self.house.first_card = self.draw_card();
+            self.house.second_card = self.draw_card();
+
+            println!("");
+            print!("HOUSE First card: \n");
+            self.house.first_card.print_card();
+            print!("HOUSE Second card: \n");
+            self.house.second_card.print_blank_card();
+
+
             self.control.game_state = GameState::End;
         }
         

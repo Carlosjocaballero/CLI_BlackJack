@@ -12,6 +12,7 @@ impl Card{
             symbol: symbol
         }
     }
+
     pub fn print_card(&mut self){
         for _i in 0..6{
             print!("x");
@@ -26,10 +27,19 @@ impl Card{
         for _i in 0..6{
             print!("x");
         }
-        println!("");
+        println!("\n");
         // "x x x"
         // "x x x"
         // "xxxxx"
+    }
+
+    pub fn print_blank_card(&mut self){
+        for _i in 0..4{
+            for _j in 0..6{
+                print!("x");
+            }
+            print!("\n");
+        }
     }
 
 }

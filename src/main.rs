@@ -15,6 +15,5 @@ fn main() {
     let mut game : Game = Game::new();
     println!("Start the game!");
     game.init();
-    println!("Goodbye!");
     
 }
