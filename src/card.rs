@@ -1,4 +1,5 @@
 
+#[derive(Clone)]
 pub struct Card {
     value : i8,
     symbol : char
