@@ -1,12 +1,12 @@
 
 #[derive(Clone)]
 pub struct Card {
-    value : i8,
+    pub value : i16,
     symbol : char
 } 
 
 impl Card{
-    pub fn new(symbol:char, value:i8)-> Self{
+    pub fn new(symbol:char, value:i16)-> Self{
         Card {
             value: value,
             symbol: symbol
