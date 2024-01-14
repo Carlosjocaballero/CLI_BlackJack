@@ -19,7 +19,7 @@ impl Card{
         }
         println!("");
         print!("x {}  x\n", self.symbol);
-        if self.value == 10{
+        if self.value == 10 || self.value == 11{
             print!("x {} x\n", self.value);
         } else {
             print!("x {}  x\n", self.value);
@@ -28,9 +28,6 @@ impl Card{
             print!("x");
         }
         println!("\n");
-        // "x x x"
-        // "x x x"
-        // "xxxxx"
     }
 
     pub fn print_blank_card(&mut self){

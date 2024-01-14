@@ -36,66 +36,41 @@ impl Game{
             self.user.curr_points = 0;
 
             // House draws 2 cards
-            self.house.first_card = self.draw_card();
-            self.house.second_card = self.draw_card();
+            self.house.cards[0] = self.draw_card();
+            self.house.cards[1] = self.draw_card();
 
             // House stores the addition of card values
-            self.house.curr_points += self.house.first_card.value;
-            self.house.curr_points += self.house.second_card.value;
+            self.house.curr_points += self.house.cards[0].value;
+            self.house.curr_points += self.house.cards[0].value;
 
 
             // User draws 2 cards
-            self.user.first_card = self.draw_card();
-            self.user.second_card = self.draw_card();
+            // self.user.cards[0] = self.draw_card();
+            // self.user.cards[1] = self.draw_card();
+
+            // ---- TESTING ACE ----
+            self.user.cards[0] = Card::new('♥', 10);
+            self.user.cards[1] = Card::new('A', 1);
 
             // User stores the addition of card values
-            self.user.curr_points += self.user.first_card.value;
-            self.user.curr_points += self.user.second_card.value;
+            self.user.curr_points += self.user.cards[0].value;
+            self.user.curr_points += self.user.cards[1].value;
             
             // Print playing cards
-            self.print_playing_cards();
+            self.print_playing_cards_hidden();
 
-            if self.user.first_card.value == 1 && !(self.user.first_card.value == 1 && self.user.second_card.value == 10) {
-                print!("Your first card is an Ace, would you want to count it as a 1 or 11? ");
-                io::stdout().flush().expect("Failed to flush stdout");
-
-                let mut input = String::new();
-                io::stdin().read_line(&mut input).expect("Failed to read line");
-                
-
-                match input.as_str(){
-                    "1" => self.user.first_card.value = 1,
-                    "11" => self.user.first_card.value = 11,
-                    _ => ()
-                }
-                self.print_playing_cards();
-            } else if self.user.second_card.value == 1 && self.user.curr_points != 21 {
-                println!("Your second card is an Ace, would you want to count it as a 1 or 11?");
-                io::stdout().flush().expect("Failed to flush stdout");
-
-                let mut input = String::new();
-                io::stdin().read_line(&mut input).expect("Failed to read line");
-                
-
-                match input.as_str(){
-                    "1" => self.user.second_card.value = 1,
-                    "11" => self.user.second_card.value = 11,
-                    _ => ()
-                }
-                self.print_playing_cards();
-            } 
+            self.evaluate_ace();
             
-            if self.user.curr_points == 21 {
+            if self.user.curr_points == 21 || self.check_user_blackjack() {
                 self.control.game_state = GameState::Blackjack;
-            } else if self.user.first_card.value == 1 || self.user.second_card.value == 1 {
-                self.control.game_state = GameState::Ace;
             } else{
                 self.control.game_state = GameState::Choosing;
             }
 
             match self.control.game_state {
                 GameState::Blackjack => {
-
+                        println!("BlackJack!");
+                        // continue;
                 },
                 GameState::Ace => {
 
@@ -108,6 +83,7 @@ impl Game{
 
             self.control.game_state = GameState::End;
         }
+
         
     }
 
@@ -116,17 +92,32 @@ impl Game{
         random
     }
 
-    fn print_playing_cards(&mut self) {
+    fn print_playing_cards_hidden(&mut self) {
         println!("\n------ HOUSE ------");
-        print!("First card: \n");
-        self.house.first_card.print_card();
-        print!("Second card: \n");
-        self.house.second_card.print_blank_card();
+        for i in 0..self.house.cards.len() - 1 {
+            print!("Card #{}: \n", i+1);
+            self.house.cards[i].print_card();
+        }
+        print!("Card #2: \n");
+        self.house.cards[1].print_blank_card();
 
         println!("\n------ USER ------");
-        print!("First card: \n");
-        self.user.first_card.print_card();
-        print!("Second card: \n");
-        self.user.second_card.print_card();
+        for i in 0..self.user.cards.len() {
+            print!("Card #{}: \n", i+1);
+            self.user.cards[i].print_card();
+        }
+    }
+
+    fn check_user_blackjack(&mut self) -> bool{
+        (self.user.cards[0].value == 1 && self.user.cards[1].value == 10) || (self.user.cards[0].value == 10 && self.user.cards[1].value == 1) 
+    }
+
+    fn evaluate_ace(&mut self) {
+        for i in 0..self.user.cards.len() {
+            if self.user.cards[i].value == 1 {
+                self.user.has_ace = true;
+                self.user.ace_pos = i;
+            }
+        }
     }
 }
