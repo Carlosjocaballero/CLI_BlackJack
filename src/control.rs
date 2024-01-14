@@ -4,7 +4,6 @@ pub enum GameState{
     Dealing,
     Choosing,
     Blackjack,
-    Ace,
     Win,
     Lose,
     End
