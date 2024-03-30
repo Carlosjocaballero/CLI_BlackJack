@@ -66,17 +66,17 @@ impl Game{
                     self.user.total_money -= self.user.curr_bet;
                 },
                 _ => ()
-            }
-
-            self.summary();
-            
+            }            
 
         }
 
         
     }
 
+
     fn new_round(&mut self){
+        // Show user summary
+        self.summary();
 
         // Prompt user for bet amount
         print!("\nHow much do you want to bet? ");
