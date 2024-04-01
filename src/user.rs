@@ -6,7 +6,7 @@ pub struct User{
     pub curr_bet: i16,
     pub cards: Vec<Card>,
     pub has_ace: bool,
-    pub ace_pos: usize
+    pub ace_pos: usize,
 }
 
 impl User{
@@ -20,7 +20,7 @@ impl User{
             curr_bet: 0,
             cards: cards,
             has_ace: false,
-            ace_pos: 0
+            ace_pos: 0,
         }
     }
 }

@@ -28,8 +28,8 @@ impl Game{
     }
 
     pub fn init(&mut self){
-        while self.control.game_state != GameState::End{
 
+        while self.control.game_state != GameState::End{
             self.new_round();
             
 
@@ -45,7 +45,7 @@ impl Game{
 
             match self.control.game_state {
                 GameState::Blackjack => {
-                    self.print_playng_cards();
+                    self.print_playing_cards();
                     self.print_curr_score();
                     println!("BlackJack!");
                     self.control.game_state = GameState::Win;
@@ -103,7 +103,7 @@ impl Game{
 
         // House stores the addition of card values
         self.house.curr_points += self.house.cards[0].value;
-        self.house.curr_points += self.house.cards[0].value;
+        self.house.curr_points += self.house.cards[1].value;
 
         while self.user.cards.len() != 2 {
             self.user.cards.pop();
@@ -143,7 +143,7 @@ impl Game{
         }
     }
 
-    fn print_playng_cards(&mut self){
+    fn print_playing_cards(&mut self){
         println!("\n------ HOUSE ------");
         for i in 0..self.house.cards.len(){
             print!("Card #{}: \n", i+1);
@@ -177,9 +177,8 @@ impl Game{
 
     fn choosing(&mut self){
         while self.control.game_state == GameState::Choosing {
-            // Print playing cards
+            // Print playing cards  -------------  PAUSED ---------
             self.print_playing_cards_hidden();
-
             print!("You have {} points. What would you want to do? 1.Hit  2.Stand  3.Quit Game ", self.user.curr_points);
             io::stdout().flush().expect("Failed to flush stdout");
             
@@ -201,7 +200,7 @@ impl Game{
                         }
 
                         if self.user.curr_points > 21 {
-                            self.print_playng_cards();
+                            self.print_playing_cards();
                             self.print_curr_score();
                             println!("You busted!");
                             self.control.game_state = GameState::Lose;
@@ -224,7 +223,7 @@ impl Game{
             self.house.curr_points += new_card.value;
             self.house.cards.push(new_card);
         } 
-        self.print_playng_cards();
+        self.print_playing_cards();
         self.print_curr_score();
         // Assume that user score is < 21 and won't increase anymore
         if self.user.curr_points > 21{
@@ -244,5 +243,22 @@ impl Game{
 
     fn print_curr_score(&mut self){
         println!("House: {}  You: {}", self.house.curr_points, self.user.curr_points);
+    }
+
+    fn print_match_info(&mut self){
+        println!("------ HOUSE ------");
+        for i in 0..self.house.cards.len(){
+            print!("Card #{}: \n", i+1);
+            println!("value: {}",self.house.cards[i].value);
+        }
+        println!("sum: {}", self.house.curr_points);
+
+        println!("------ USER ------");
+        for i in 0..self.user.cards.len(){
+            print!("Card #{}: \n", i+1);
+            println!("value: {}",self.user.cards[i].value);
+        }
+        println!("sum: {}", self.user.curr_points);
+
     }
 }
